@@ -14,6 +14,9 @@ module.exports = {
         },
         
       },
+      fontFamily:{
+        heading: ['Crimson Text'],
+      }
     },
   },
   variants: {

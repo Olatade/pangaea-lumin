@@ -1,10 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <div>Sticky navigation</div>
+      <div className="font-heading">Sticky navigation</div>
       <div>Hero Section</div>
       <div>Products section</div>
       <div>Products section</div>
