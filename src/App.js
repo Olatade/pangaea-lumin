@@ -1,6 +1,7 @@
 import './App.css';
 import TopNav from './components/TopNav';
 import ProductFilter from './components/ProductFilter';
+import InstagramFeed from './components/InstagramFeed';
 
 function App() {
   return (
@@ -8,11 +9,10 @@ function App() {
       <TopNav/>
 
       <ProductFilter/>
-      
+
       <div className="h-96 bg-primary-light">Products section</div>
       
-      <div>Products section</div>
-      <div>Social Section</div>
+      <InstagramFeed/>
       <div>Footer section</div>
     </div>
   );
