@@ -2,6 +2,7 @@ import './App.css';
 import TopNav from './components/TopNav';
 import ProductFilter from './components/ProductFilter';
 import InstagramFeed from './components/InstagramFeed';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <div className="h-96 bg-primary-light">Products section</div>
       
       <InstagramFeed/>
-      <div>Footer section</div>
+      <Footer/>
     </div>
   );
 }
