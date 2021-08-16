@@ -2,6 +2,8 @@ import Modal from 'react-modal';
 import {IoChevronForwardCircleOutline } from 'react-icons/io5'
 import {AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
+import {useSelector, useDispatch} from 'react-redux';
+import {closeModal} from '../redux/modals'
 
 Modal.setAppElement('#root');
 
@@ -81,10 +83,13 @@ function CartItem(){
 
 
 function Cart(){
+  const dispatch = useDispatch();
+  const {cart} = useSelector(state => state.modal);
+
   return(
     <div>  
       <Modal 
-        isOpen={false}
+        isOpen={cart}
         style={ window.innerWidth > 768 ? customStyles : mobileStyles}
       >
         <div className="relative min-h-full overflow-hidden">
@@ -94,7 +99,7 @@ function Cart(){
           <div className="z-40 absolute top-0 w-full pt-6 px-4 bg-secondary-light ">
 
             {/* close icon */}
-            <span className="absolute text-2xl text-primary-dark"><IoChevronForwardCircleOutline/></span>
+            <span onClick={ () => dispatch(closeModal('cart'))} className="cursor-pointer absolute text-2xl text-primary-dark"><IoChevronForwardCircleOutline/></span>
             {/* heading */}
             <h2 className="text-center text-xxs text-gray-400">YOUR CART</h2>
 

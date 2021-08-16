@@ -4,7 +4,7 @@ export const modalSlice = createSlice({
   name: 'modals',
   initialState: {
     cart: false,
-    account: true,
+    account: false,
     menuBar: false
   },
   reducers: {
@@ -30,6 +30,7 @@ export const modalSlice = createSlice({
         default:
           state.account = false;
           state.cart = false;
+          state.menuBar = false;
       }
     },
     setUpdateState:(state, action) =>{

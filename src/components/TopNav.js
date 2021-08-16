@@ -7,12 +7,11 @@ import { useEffect } from 'react';
 import {useDispatch} from 'react-redux';
 import { openModal } from '../redux/modals';
 
+// position the cart number relative to the cart icon container
 const CartCount = styled.span`
   top: -5px;
   right: 0px;
 `;
-
-
 
 function TopNav() {
   const dispatch = useDispatch();
@@ -23,7 +22,6 @@ function TopNav() {
     var sticky = topNav.offsetTop;
 
     function scrollWatch() {
-
       if (window.pageYOffset > sticky) {
         topNav.classList.add("sticky");
         topNav.classList.add("top-0");
@@ -36,10 +34,9 @@ function TopNav() {
         topNav.classList.add("bg-secondary-light");
       }
     }
-
+    
+    // add and remove classes from the top navigation when it is scrolled
     window.onscroll = function() {scrollWatch()};
-
-    console.log('using effect');
   },[])
 
   return(
@@ -63,10 +60,10 @@ function TopNav() {
         <button onClick={() => dispatch(openModal('account'))} className="text-sm text-black hover:text-gray-500 transition duration-300">Account </button>
 
         {/* cart icon, cart total */}
-        <div className="flex relative pr-1">
+        <button onClick={() => dispatch(openModal('cart'))} className="flex relative pr-1">
           <span className="text-2xl pr-1  transform rotate-6"><IoCartOutline/></span>
           <CartCount className="text-sm self-start absolute">0</CartCount>
-        </div>
+        </button>
 
         {/* Langauge selection */}
         <div className="font-light border border-gray-700 py-0.5 pl-4 pr-16">EN</div>
