@@ -65,7 +65,7 @@ function Footer(){
         {/* Need help ? */}
         <div className="text-xs space-y-3 py-3 md:py-0 md:pb-6">
           <h3 className=" text-xs  md:text-base font-bold">Need Help?</h3>
-          <p className="md:font-thin md:text-base">Contact us through our <a className="underline md:text-sm">Support concierge</a></p>
+          <p className="md:font-thin md:text-base">Contact us through our <a href="https://www.luminskin.com/pages/customer-support-portal" className="underline md:text-sm">Support concierge</a></p>
           <p className=" md:font-thin md:text-base">Or email us at <a className="underline" href="mailto:support@luminskin.com underline">support@luminskin.com</a></p>
         </div>
 
