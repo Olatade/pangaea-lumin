@@ -20,15 +20,16 @@ const PulsateStyle = styled.div`
   }
 `;
 
-const SingleProduct = () =>{
+const SingleProduct = (props) =>{
+  const { id, title, image_url,  price, product_options} = props.productData;
   return(
     <div className="text-center space-y-4">
-      <div>
-        <img src="https://cdn.shopify.com/s/files/1/2960/5204/products/age-management_1024x1024_ad6e7a36-7242-469c-9fb5-242f5ee9c83f_1024x1024.png?v=1602809968" alt="product"/>
+      <div className=" flex h-44 w-auto justify-center">
+        <img className="h-full" src={image_url} alt="product"/>
       </div>
-      <h5 className="text-sm font-thin md:text-base">Age Management Set</h5>
-      <p className="text-sm font-normal md:text-lg ">$55.00</p>
-      <button className="w-full font-bold text-white px-6 py-4 text-sm text-center bg-primary-dark ">Add to cart</button>
+      <h5 className="text-xs font-thin md:text-base">{title}</h5>
+      <p className="text-sm font-normal md:text-lg ">${price}</p>
+      <button className="w-full trasnsition duration-300 hover:bg-primary-dark2 font-bold text-white px-6 py-4 text-sm text-center bg-primary-dark ">Add to cart</button>
     </div>
   )
 }
@@ -73,10 +74,10 @@ function ProductList() {
   }
   else{
     return(
-      <div className="px-6 md:px-10 lg:px-32 py-8 md:py-12 grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 lg:gap-40 bg-primary-light">
+      <div className="px-6 md:px-10 lg:px-32 py-8 md:py-12 grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 lg:gap-x-40 lg:gap-y-32 bg-primary-light">
         {
-          [1, 2, 3, 4].map( product => {
-            return <SingleProduct key={product} />
+          Products.products.map( product => {
+            return <SingleProduct productData={product} key={product.id} />
           })
         }
       </div>
