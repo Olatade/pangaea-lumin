@@ -3,15 +3,44 @@ import { VscMenu } from 'react-icons/vsc';
 import { IoCartOutline } from 'react-icons/io5';
 import styled from 'styled-components';
 import luminLogo from '../img/logo.png';
+import { useEffect } from 'react';
 
 const CartCount = styled.span`
   top: -5px;
   right: 0px;
 `;
 
+
+
 function TopNav() {
+
+  useEffect( ()=>{
+    // 
+    var topNav = document.getElementById("top-nav");
+    var sticky = topNav.offsetTop;
+
+    function scrollWatch() {
+
+      if (window.pageYOffset > sticky) {
+        topNav.classList.add("sticky");
+        topNav.classList.add("top-0");
+        topNav.classList.remove("bg-secondary-light");
+        topNav.classList.add("bg-white");
+      } else {
+        topNav.classList.remove("sticky");
+        topNav.classList.remove("top-0");
+        topNav.classList.remove("bg-white");
+        topNav.classList.add("bg-secondary-light");
+      }
+    }
+
+    window.onscroll = function() {scrollWatch()};
+
+    console.log('using effect');
+  },[])
+
   return(
-    <div className="flex py-2 px-5 md:px-10 bg-secondary-light items-center justify-between shadow-md border-b border-gray-300">
+    <div id="top-nav" className="flex py-2 px-5 md:px-10 bg-secondary-light items-center justify-between shadow-md border-b border-gray-300">
 
       {/* Menu icon && Brand logo */}
       <div className="flex items-center">

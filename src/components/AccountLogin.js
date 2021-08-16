@@ -39,7 +39,7 @@ function AccountLogin(){
   return(
     <div>  
       <Modal 
-        isOpen={true}
+        isOpen={false}
         style={ window.innerWidth > 768 ? customStyles : mobileStyles}
       >
         <div className="bg-secondary-light min-h-full py-10 px-6  space-y-10">
