@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const PulsateStyle = styled.div`
     animation-name: color;
-    animation-duration: 2s;
+    animation-duration: 1.5s;
     animation-iteration-count: infinite;
 
   @keyframes color {
