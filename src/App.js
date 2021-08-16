@@ -5,6 +5,7 @@ import InstagramFeed from './components/InstagramFeed';
 import Footer from './components/Footer';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart';
+import AccountLogin from './components/AccountLogin';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Footer/>
 
       <Cart/>
+      <AccountLogin/>
     </div>
   );
 }
