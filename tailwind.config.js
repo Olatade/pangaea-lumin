@@ -16,6 +16,14 @@ module.exports = {
       },
       fontFamily:{
         heading: ['Crimson Text'],
+      },
+      fontSize:{
+        'xxs': '0.6rem'
+      },
+      theme:{
+        boxShadow:{
+          top: '0px -7px 15px -7px rgba(0,0,0,0.69)',
+        }
       }
     },
   },
