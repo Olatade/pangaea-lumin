@@ -4,7 +4,9 @@ import {AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import {useSelector, useDispatch} from 'react-redux';
 import {closeModal} from '../redux/modals';
+import {removeFromCart} from '../redux/cart';
 import { getRandomInt } from "../services/functions.js"; 
+import { useEffect } from 'react';
 
 Modal.setAppElement('#root');
 
@@ -50,11 +52,12 @@ const CartFooterStyle = styled.div`
  * @returns 
  */
 function CartItem(props){
+  const dispatch = useDispatch();
   const { item } = props;
   return (
     <div className=" flex relative justify-between items-center bg-white px-4 pt-5 pb-4">
       {/* close button */}
-      <span className="absolute top-2 right-2"><AiOutlineClose/></span>
+      <span onClick={() => dispatch(removeFromCart(item.id))} className="cursor-pointer absolute top-2 right-2"><AiOutlineClose/></span>
 
       {/* Product details && quantity toggle */}
       <div className=" flex-1 space-y-3 pr-12">
@@ -80,7 +83,7 @@ function CartItem(props){
       
       {/* Product image */}
       <div className="w-20">
-        <img className="w-full"  src={item.image_url} alt="lumin" />
+        <img className="w-full" src={item.image_url} alt="lumin" />
       </div>
    </div>      
   )
@@ -93,7 +96,6 @@ function CartItem(props){
  */
 function CartList(props){
   const { productList } = props
-
   // Display a list of products if the productList array is not empty
   if(productList.length > 0 ){
     return(
@@ -110,8 +112,8 @@ function CartList(props){
   // Display empty cart message
   else{
     return(
-      <div>
-        <p className="text-base">There are no items in your cart</p>
+      <div className="px-4 pt-28" >
+        <p className="text-base text-center">There are no items in your cart</p>
       </div>
     )
   }
@@ -122,8 +124,11 @@ function CartList(props){
 function Cart(){
   const dispatch = useDispatch();
   const {cart} = useSelector(state => state.modal);
-  const { products } = useSelector(state => state.cart);
+  const { products, totalPrice } = useSelector(state => state.cart);
 
+  useEffect( () => {
+
+  }, [products])
 
   return(
     <div>  
@@ -131,7 +136,7 @@ function Cart(){
         isOpen={cart}
         style={ window.innerWidth > 768 ? customStyles : mobileStyles}
       >
-        <div className="relative min-h-full overflow-hidden">
+        <div className="relative min-h-full bg-secondary-light overflow-hidden">
         
 
           {/* Cart head - || title && close icon */}
@@ -163,7 +168,7 @@ function Cart(){
 
             <div className="flex justify-between text-sm">
               <p>Subtotal</p>
-              <p>$24.00</p>
+              <p>${totalPrice}</p>
             </div>
 
             <div className="space-y-3">

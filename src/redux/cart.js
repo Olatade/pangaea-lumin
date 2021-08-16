@@ -11,13 +11,52 @@ export const cartSlice = createSlice({
   reducers: {
     
     addToCart:(state, action) =>{
+      // check if product is already in the cart
+      // if so, increace the count 
+
       // add object to products array
       state.products.unshift(action.payload);
-      
-      // increment the total items counter
-      // 
+
+      // update the cart totals (price && items)
+      cartSlice.caseReducers.updateCartSummary(state);
     },
 
+    calculateTotalPrice:(state) =>{
+      var total = 0
+      // loop through the products in the cart and add all prices
+      state.products.forEach(product =>{
+        total += product.price
+      })
+      state.totalPrice = total;
+    },
+
+    calculateTotalItems:(state)=>{
+      state.totalItems = state.products.length;
+    },
+
+    updatePrice:(state, action)=>{
+      
+    }, 
+
+    updateCartSummary(state){
+      cartSlice.caseReducers.calculateTotalPrice(state);
+      cartSlice.caseReducers.calculateTotalItems(state);
+    },
+
+    removeFromCart:(state, action) =>{
+      console.log('Removing from cart');
+      // find the index of the item in the array
+      const itemIndex = state.products.findIndex( product => product.id === action.payload)
+      //remove the item
+      state.products = [
+        // from the start to the one we want to delete
+        ...state.products.slice(0, itemIndex),
+        // after the deleted one to the end
+        ...state.products.slice(itemIndex + 1)
+      ]
+      // recalculate the total price
+      cartSlice.caseReducers.calculateTotalPrice(state);
+    },
 
     setUpdateState:(state, action) =>{
       state.updateState = action.payload
@@ -29,6 +68,6 @@ export const cartSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addToCart } = cartSlice.actions
+export const { addToCart, removeFromCart } = cartSlice.actions
 
 export default cartSlice.reducer
