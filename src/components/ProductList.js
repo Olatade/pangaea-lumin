@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Products from '../services/getAllProducts';
-
+import { useDispatch } from "react-redux";
+import { openModal } from "../redux/modals";
+import { addToCart } from "../redux/cart";
 
 const PulsateStyle = styled.div`
     animation-name: color;
@@ -20,8 +22,29 @@ const PulsateStyle = styled.div`
   }
 `;
 
+
+
 const SingleProduct = (props) =>{
-  const { id, title, image_url,  price, product_options} = props.productData;
+  const { productData } = props;
+  const dispatch = useDispatch();
+
+  // function to handle how a product is added to the cart
+  function handleAddToCart(productData){
+   const { product_options } = productData;
+    
+   if( product_options.length < 1){
+    console.log('we do not have options')
+    // add the product to the cart
+    dispatch(addToCart(productData));
+    dispatch(openModal('cart'));
+   }else{
+    console.log('we have options')
+   }
+    
+  
+  }
+
+  const {title, image_url, price} = productData;
   return(
     <div className="text-center space-y-4">
       <div className=" flex h-44 w-auto justify-center">
@@ -29,7 +52,7 @@ const SingleProduct = (props) =>{
       </div>
       <h5 className="text-xs font-thin md:text-base">{title}</h5>
       <p className="text-sm font-normal md:text-lg ">${price}</p>
-      <button className="w-full trasnsition duration-300 hover:bg-primary-dark2 font-bold text-white px-6 py-4 text-sm text-center bg-primary-dark ">Add to cart</button>
+      <button onClick={() => handleAddToCart(productData)} className="w-full trasnsition duration-300 hover:bg-primary-dark2 font-bold text-white px-6 py-4 text-sm text-center bg-primary-dark ">Add to cart</button>
     </div>
   )
 }
@@ -83,8 +106,6 @@ function ProductList() {
       </div>
     )
   }
-
-
 }
 
 export default ProductList;

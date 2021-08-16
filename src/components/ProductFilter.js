@@ -9,7 +9,7 @@ function ProductFilter(){
 
       <div className=" md:flex flex-1">
         <form  className="ml-auto md:w-96">
-          <label for="cars" className="sr-only">Choose a car:</label>
+          <label htmlFor="cars" className="sr-only">Choose a car:</label>
 
           <select name="cars" id="cars" className="border w-full py-4 px-4 pr-4border-gray-600">
             <option value="">Filter by</option>

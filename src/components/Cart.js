@@ -3,7 +3,8 @@ import {IoChevronForwardCircleOutline } from 'react-icons/io5'
 import {AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import {useSelector, useDispatch} from 'react-redux';
-import {closeModal} from '../redux/modals'
+import {closeModal} from '../redux/modals';
+import { getRandomInt } from "../services/functions.js"; 
 
 Modal.setAppElement('#root');
 
@@ -43,18 +44,23 @@ const CartFooterStyle = styled.div`
     box-shadow: 0px -7px 15px -2px rgba(209,213,210,0.71);
 `;
 
-function CartItem(){
-
+/**
+ * Renders a single product that goes into the cartList
+ * @param {*} props 
+ * @returns 
+ */
+function CartItem(props){
+  const { item } = props;
   return (
     <div className=" flex relative justify-between items-center bg-white px-4 pt-5 pb-4">
       {/* close button */}
       <span className="absolute top-2 right-2"><AiOutlineClose/></span>
 
       {/* Product details && quantity toggle */}
-      <div className=" flex-1 space-y-3 pr-4">
+      <div className=" flex-1 space-y-3 pr-12">
 
         <div>
-          <h4 className="text-sm">Travel Bag</h4>
+          <h4 className="text-sm">{item.title}</h4>
           <p className="text-xs">Brown</p>
           <p className="text-xxs">One time putchase of two month supply</p>
         </div>
@@ -68,23 +74,56 @@ function CartItem(){
           </div>
 
           {/* price */}
-          <p className="text-base font-thin">$24.00</p>
+          <p className="text-base font-thin">${item.price}</p>
         </div>
       </div>
       
       {/* Product image */}
       <div className="w-20">
-        <img className="w-full"  src="https://cdn.shopify.com/s/files/1/2960/5204/products/leather_bag_transparent-min_350x350.png?v=1586204849" alt="lumin" />
+        <img className="w-full"  src={item.image_url} alt="lumin" />
       </div>
-
    </div>      
   )
+}
+
+/**
+ * Renders a list of products that go
+ * @param {*} props 
+ * @returns 
+ */
+function CartList(props){
+  const { productList } = props
+
+  // Display a list of products if the productList array is not empty
+  if(productList.length > 0 ){
+    return(
+      <div className="px-4 pt-28 bg-secondary-light max-h-screen pb-64 space-y-6 overflow-y-scroll">
+        {
+          productList.map( product => {
+            return <CartItem key={(product.id + getRandomInt(1000))} item={product}/>
+          })
+        }
+      </div>
+    )
+  }
+
+  // Display empty cart message
+  else{
+    return(
+      <div>
+        <p className="text-base">There are no items in your cart</p>
+      </div>
+    )
+  }
+
 }
 
 
 function Cart(){
   const dispatch = useDispatch();
   const {cart} = useSelector(state => state.modal);
+  const { products } = useSelector(state => state.cart);
+
 
   return(
     <div>  
@@ -105,7 +144,7 @@ function Cart(){
 
             {/* currency select */}
             <form  className="ml-auto pt-6">
-              <label for="cars" className="sr-only">Choose a car:</label>
+              <label htmlFor="cars" className="sr-only">Choose a car:</label>
 
               <select name="cars" id="currency" className=" text-sm border py-2 px-2 pr-4">
                 <option value="">USD</option>
@@ -117,13 +156,7 @@ function Cart(){
           </div>
 
           {/* Products */}
-          <div className="px-4 pt-28 bg-secondary-light max-h-screen pb-64 space-y-6 overflow-y-scroll">
-            {
-              [1, 2, 3, 4].map( item => {
-                return <CartItem/>
-              })
-            }
-          </div>
+          <CartList productList={products}/>
           
           {/* Cart foot */}
           <CartFooterStyle  className="absolute px-5 bg-secondary-light w-full bottom-0 py-6 space-y-6 shadow-2xl">
@@ -135,7 +168,7 @@ function Cart(){
 
             <div className="space-y-3">
               <button href="" className="w-full bg-white px-6 py-3 text-sm text-center text-primary-dark border border-primary-dark ">MAKE THIS A SUBSCRIPTION (SAVE 20%)</button>
-              <button href="" className="w-full bg-primary-dark text-sm px-6 py-3 text-center text-white">MAKE THIS A SUBSCRIPTION (SAVE 20%)</button>
+              <button href="" className="w-full bg-primary-dark text-sm px-6 py-3 text-center text-white">PROCEED TO CHECKOUT</button>
             </div>
 
           </CartFooterStyle>

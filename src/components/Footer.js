@@ -14,7 +14,7 @@ function Footer(){
           <h2 className="font-heading text-2xl md:text-3xl">Let's stay in touch</h2>
           <p className="text-xs md:text-base md:font-thin leading-5">We’ll give you a heads up on new Lumin products, deals, and events, plus tips & tricks on how to keep your skin looking its damned finest.</p>
           <form>
-            <label for="email"></label>
+            <label htmlFor="email"></label>
             <input className="w-full bg-transparent focus:border-white text-sm py-1 font-semibold text-gray-200 border-b-2 border-white" name="email" type="text" placeholder="EMAIL ADDRESS"></input>
           </form>
         </div>
