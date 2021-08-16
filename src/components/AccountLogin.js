@@ -1,5 +1,7 @@
 import Modal from 'react-modal';
 import {IoChevronForwardCircleOutline } from 'react-icons/io5'
+import {useSelector, useDispatch} from 'react-redux';
+import {closeModal } from '../redux/modals';
 
 Modal.setAppElement('#root');
 
@@ -36,16 +38,19 @@ const mobileStyles = {
 
 
 function AccountLogin(){
+  const dispatch = useDispatch();
+  const {account} = useSelector(state => state.modal);
+
   return(
     <div>  
       <Modal 
-        isOpen={false}
+        isOpen={account}
         style={ window.innerWidth > 768 ? customStyles : mobileStyles}
       >
         <div className="bg-secondary-light min-h-full py-10 px-6  space-y-10">
 
           {/* close icon */}
-          <span className="text-2xl text-primary-dark"><IoChevronForwardCircleOutline/></span>
+          <span onClick={ () => dispatch(closeModal('account')) } className="text-2xl text-primary-dark"><IoChevronForwardCircleOutline/></span>
 
           <div className="px-3 space-y-6">
             <h3 className="font-heading text-2xl md:text-4xl">Welcome Back</h3>

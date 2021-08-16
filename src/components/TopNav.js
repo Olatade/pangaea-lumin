@@ -4,6 +4,8 @@ import { IoCartOutline } from 'react-icons/io5';
 import styled from 'styled-components';
 import luminLogo from '../img/logo.png';
 import { useEffect } from 'react';
+import {useDispatch} from 'react-redux';
+import { openModal } from '../redux/modals';
 
 const CartCount = styled.span`
   top: -5px;
@@ -13,6 +15,7 @@ const CartCount = styled.span`
 
 
 function TopNav() {
+  const dispatch = useDispatch();
 
   useEffect( ()=>{
     // 
@@ -57,7 +60,7 @@ function TopNav() {
       {/* Account link, cart icon && language selection */}
       <div className="flex space-x-5 items-center">
         {/* account link */}
-        <a href="/" className="text-sm text-black hover:text-gray-500 transition duration-300">Account </a>
+        <button onClick={() => dispatch(openModal('account'))} className="text-sm text-black hover:text-gray-500 transition duration-300">Account </button>
 
         {/* cart icon, cart total */}
         <div className="flex relative pr-1">
