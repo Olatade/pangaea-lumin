@@ -4,7 +4,7 @@ import { IoCartOutline } from 'react-icons/io5';
 import styled from 'styled-components';
 import luminLogo from '../img/logo.png';
 import { useEffect } from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { openModal } from '../redux/modals';
 
 // position the cart number relative to the cart icon container
@@ -15,6 +15,7 @@ const CartCount = styled.span`
 
 function TopNav() {
   const dispatch = useDispatch();
+  const { totalItems } = useSelector(state => state.cart)
 
   useEffect( ()=>{
     // 
@@ -37,7 +38,7 @@ function TopNav() {
     
     // add and remove classes from the top navigation when it is scrolled
     window.onscroll = function() {scrollWatch()};
-  },[])
+  },[totalItems])
 
   return(
     <div id="top-nav" className="flex py-2 px-5 md:px-10 bg-secondary-light items-center justify-between shadow-md border-b border-gray-300">
@@ -62,7 +63,7 @@ function TopNav() {
         {/* cart icon, cart total */}
         <button onClick={() => dispatch(openModal('cart'))} className="flex relative pr-1">
           <span className="text-2xl pr-1  transform rotate-6"><IoCartOutline/></span>
-          <CartCount className="text-sm self-start absolute">0</CartCount>
+          <CartCount className="text-sm self-start absolute">{totalItems}</CartCount>
         </button>
 
         {/* Langauge selection */}

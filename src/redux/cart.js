@@ -21,6 +21,21 @@ export const cartSlice = createSlice({
       cartSlice.caseReducers.updateCartSummary(state);
     },
 
+    removeFromCart:(state, action) =>{
+      // find the index of the item in the array
+      const itemIndex = state.products.findIndex( product => product.id === action.payload)
+      //remove the item
+      state.products = [
+        // from the start to the one we want to delete
+        ...state.products.slice(0, itemIndex),
+        // after the deleted one to the end
+        ...state.products.slice(itemIndex + 1)
+      ]
+      // update the cart totals (price && items)
+      cartSlice.caseReducers.updateCartSummary(state);
+    },
+
+
     calculateTotalPrice:(state) =>{
       var total = 0
       // loop through the products in the cart and add all prices
@@ -41,21 +56,6 @@ export const cartSlice = createSlice({
     updateCartSummary(state){
       cartSlice.caseReducers.calculateTotalPrice(state);
       cartSlice.caseReducers.calculateTotalItems(state);
-    },
-
-    removeFromCart:(state, action) =>{
-      console.log('Removing from cart');
-      // find the index of the item in the array
-      const itemIndex = state.products.findIndex( product => product.id === action.payload)
-      //remove the item
-      state.products = [
-        // from the start to the one we want to delete
-        ...state.products.slice(0, itemIndex),
-        // after the deleted one to the end
-        ...state.products.slice(itemIndex + 1)
-      ]
-      // recalculate the total price
-      cartSlice.caseReducers.calculateTotalPrice(state);
     },
 
     setUpdateState:(state, action) =>{
