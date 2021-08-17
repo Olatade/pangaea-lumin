@@ -1,5 +1,4 @@
 import styled from "styled-components";
-// import Products from '../services/getAllProducts';
 import { useDispatch} from "react-redux";
 import { openModal } from "../redux/modals";
 import { addToCart, setOptionsToView } from "../redux/cart";
@@ -36,7 +35,6 @@ const SingleProduct = (props) =>{
    const { product_options } = productData;
     
    if( product_options.length < 1){
-    console.log('we do not have options')
     // add the product to the cart
     dispatch(addToCart({...productData, options: []}));
     dispatch(openModal('cart'));
@@ -44,15 +42,7 @@ const SingleProduct = (props) =>{
     //  add the options to the cart state
      dispatch(setOptionsToView(productData))
      dispatch(openModal('cart'));
-    
-
-     // display product options
-     
-     // display cart
-    console.log('we have options')
    }
-    
-  
   }
 
   const {title, image_url, price} = productData;

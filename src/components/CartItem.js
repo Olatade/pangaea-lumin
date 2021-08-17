@@ -9,7 +9,6 @@ import { removeFromCart, addToCart, decrementProductCount } from '../redux/cart'
  function CartItem(props) {
   const dispatch = useDispatch();
   const { product } = props;
-  console.log('FROM CART', product.options);
 
   let str = ''
   for (const property in product.options) {

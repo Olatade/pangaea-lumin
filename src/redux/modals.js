@@ -10,7 +10,6 @@ export const modalSlice = createSlice({
   },
   reducers: {
     openModal:(state, action)=>{
-      console.log('opening modal');
       switch(action.payload){
         //  set all other modal state to false when one is set to open
         case 'cart':

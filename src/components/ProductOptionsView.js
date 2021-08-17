@@ -13,7 +13,6 @@ function OptionsForm(props){
 
   // get initial values for the form
   product_options.forEach(option =>{
-    console.log(option.title.split(" ")[0]);
     values[option.title.split(" ")[0]] = option.options[0].value;
   })
 
@@ -23,7 +22,6 @@ function OptionsForm(props){
 
       onSubmit={ (values, functions)=>{
         const producuctWithOptions = {...optionsToView, options: values}
-        console.log( 'Tade sending:', producuctWithOptions);
         dispatch(addToCart(producuctWithOptions))
       }}
 
