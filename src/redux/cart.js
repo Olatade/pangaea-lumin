@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getRandomInt } from '../services/functions';
 
 export const cartSlice = createSlice({
   name: 'carts',
@@ -7,35 +6,37 @@ export const cartSlice = createSlice({
     totalItems: 0,
     totalPrice: 0,
     products: [],
-    optionsToView:{},
-    currentCurrency: 'EUR'
+    optionsToView: {}
   },
 
   reducers: {
 
     addToCart: (state, action) => {
 
-      const newProduct = action.payload;
-      const newProductCount = 1;
-
-      const similarProduct = state.products.find(pr => pr.id === newProduct.id && JSON.stringify(pr.options) === JSON.stringify(newProduct.options));
-
-      const productCount = !!similarProduct ? (similarProduct.count + newProductCount) : newProductCount;
-
-      const product = !!similarProduct ? similarProduct : newProduct;
-      const productWithCount = { ...product, count: productCount };
-      !!similarProduct && (productWithCount.id = productWithCount.id + 1000);
-      
-      const products = !!similarProduct ? state.products.filter(pr => pr.id !== newProduct.id) : state.products
-      products.unshift(productWithCount);
-
-      cartSlice.caseReducers.updateCartSummary(state, products);
-
+      const product = action.payload;
+      const similarProduct = state.products.find(pr => pr.id === product.id && JSON.stringify(pr.options) === JSON.stringify(product.options));
+      if (!!similarProduct) {
+        cartSlice.caseReducers.incrementProduct(state, similarProduct);
+      } else {
+        cartSlice.caseReducers.addNewProduct(state, product);
+      }
     },
 
     removeFromCart: (state, action) => {
       const products = state.products.filter(pr => pr.id !== action.payload);
       cartSlice.caseReducers.updateCartSummary(state, products);
+    },
+
+    addNewProduct(state, productToAdd) {
+      const productWithCount = { ...productToAdd, count: 1 };
+      state.products.unshift(productWithCount);
+      cartSlice.caseReducers.updateCartSummary(state, state.products);
+    },
+
+    incrementProduct: (state, product) => {
+      const productToIncrement = state.products.find(pr => pr.id === product.id);
+      productToIncrement.count = productToIncrement.count + 1;
+      cartSlice.caseReducers.updateCartSummary(state, state.products);
     },
 
     decrementProductCount: (state, action) => {
@@ -63,7 +64,7 @@ export const cartSlice = createSlice({
 
     updateCartSummary(state, products) {
       const totalPrice = products.reduce((total, product) => { return total + product.price * product.count; }, 0);
-      state.products = products.sort((a, b) => { return a.id - b.id });
+      state.products = products.sort((a, b) => { return b.id - a.id });
       state.totalPrice = totalPrice;
       state.totalItems = state.products.length;
       state.optionsToView = {} // empty the product options object for re-use
