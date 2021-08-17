@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import Products from '../services/getAllProducts';
+// import Products from '../services/getAllProducts';
 import { useDispatch} from "react-redux";
 import { openModal } from "../redux/modals";
 import { addToCart, setOptionsToView } from "../redux/cart";
+import {useQuery, gql} from "@apollo/client";
 
 const PulsateStyle = styled.div`
     animation-name: color;
@@ -69,9 +70,31 @@ const SingleProduct = (props) =>{
 
 
 function ProductList() {
-  const state = ''
 
-  if(state === 'loading'){
+  const ALL_PRODUCTS = gql`
+  query GetProducts {
+    products{
+      id
+      title
+      image_url
+      price( currency: USD)
+      product_options{
+        title
+        prefix
+        suffix
+        options{
+          id
+          value
+        }
+      }
+    }
+  }
+`
+
+const { loading, error, data } = useQuery(ALL_PRODUCTS);
+
+
+  if(loading || error ){
     return (
       <div className="px-6 md:px-28 py-8 md:py-12 grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 bg-primary-light">
         <div className="space-y-3">
@@ -105,17 +128,17 @@ function ProductList() {
       </div>
     )
   }
-  else{
+
     return(
       <div className="px-6 md:px-10 lg:px-32 py-8 md:py-12 grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 lg:gap-x-40 lg:gap-y-32 bg-primary-light">
         {
-          Products.products.map( product => {
+          data.products.map( product => {
             return <SingleProduct productData={product} key={product.id} />
           })
         }
       </div>
     )
-  }
+
 }
 
 export default ProductList;

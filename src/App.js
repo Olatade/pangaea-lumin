@@ -7,12 +7,23 @@ import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import AccountLogin from './components/AccountLogin';
 
+import {ApolloClient, InMemoryCache, ApolloProvider, useQuery, gql} from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: 'https://pangaea-interviews.vercel.app/api/graphql',
+  cache: new InMemoryCache()
+});
+
 function App() {
   return (
     <div className="App">
       <TopNav/>
       <ProductFilter/>
-      <ProductList/>
+
+      <ApolloProvider client={client}>
+        <ProductList/>
+      </ApolloProvider>
+
       <InstagramFeed/>
       <Footer/>
 
