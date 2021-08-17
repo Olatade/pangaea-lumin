@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { getRandomInt } from '../services/functions';
 
 export const cartSlice = createSlice({
   name: 'carts',
@@ -6,7 +7,7 @@ export const cartSlice = createSlice({
     totalItems: 0,
     totalPrice: 0,
     products: [],
-    optionsToView:{}
+    optionsToView: {}
   },
 
   reducers: {
@@ -16,15 +17,12 @@ export const cartSlice = createSlice({
       const newProduct = action.payload;
       const newProductCount = 1;
 
-      // if the payload has preference in them, add it
-
       const similarProduct = state.products.find(pr => pr.id === newProduct.id && JSON.stringify(pr.options) === JSON.stringify(newProduct.options));
 
       const productCount = !!similarProduct ? (similarProduct.count + newProductCount) : newProductCount;
 
       const product = !!similarProduct ? similarProduct : newProduct;
-      const productWithCount = { ...product, count: productCount };
-
+      const productWithCount = { ...product, count: productCount, id: !!similarProduct ? productWithCount.id + 1000 : productWithCount.id };
       const products = !!similarProduct ? state.products.filter(pr => pr.id !== newProduct.id) : state.products
       products.unshift(productWithCount);
 
@@ -62,7 +60,7 @@ export const cartSlice = createSlice({
 
     updateCartSummary(state, products) {
       const totalPrice = products.reduce((total, product) => { return total + product.price * product.count; }, 0);
-      state.products = products;
+      state.products = products.sort((a, b) => { return a.id - b.id });
       state.totalPrice = totalPrice;
       state.totalItems = state.products.length;
       state.optionsToView = {} // empty the product options object for re-use
