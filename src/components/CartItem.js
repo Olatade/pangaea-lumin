@@ -9,6 +9,13 @@ import { removeFromCart, addToCart, decrementProductCount } from '../redux/cart'
  function CartItem(props) {
   const dispatch = useDispatch();
   const { product } = props;
+  console.log('FROM CART', product.options);
+
+  let str = ''
+  for (const property in product.options) {
+    str += `${product.options[property]} | `;
+  }
+
   return (
     <div className=" flex relative justify-between items-center bg-white px-4 pt-5 pb-4">
       {/* close button */}
@@ -17,9 +24,9 @@ import { removeFromCart, addToCart, decrementProductCount } from '../redux/cart'
       {/* Product details && quantity toggle */}
       <div className=" flex-1 space-y-3 pr-12">
 
-        <div>
+        <div className="space-y-1">
           <h4 className="text-sm">{product.title}</h4>
-          <p className="text-xs">Brown</p>
+          <p className="text-xs">{str}</p>
           <p className="text-xxs">One time putchase of two month supply</p>
         </div>
 
