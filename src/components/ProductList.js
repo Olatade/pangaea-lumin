@@ -37,7 +37,7 @@ const SingleProduct = (props) =>{
    if( product_options.length < 1){
     console.log('we do not have options')
     // add the product to the cart
-    dispatch(addToCart(productData));
+    dispatch(addToCart({...productData, options: []}));
     dispatch(openModal('cart'));
    }else{
     //  add the options to the cart state
