@@ -93,7 +93,7 @@ function Cart() {
           <CartList productList={products} />
 
           {/* Cart foot */}
-          <CartFooterStyle className="absolute px-5 bg-secondary-light w-full bottom-0 py-6 space-y-6 shadow-2xl">
+          <CartFooterStyle className={`${products.length < 1 ? 'hidden' : ''} absolute px-5 bg-secondary-light w-full bottom-0 py-6 space-y-6 shadow-2xl`}>
 
             <div className="flex justify-between text-sm">
               <p>Subtotal</p>
@@ -104,7 +104,6 @@ function Cart() {
               <button href="" className="w-full bg-white px-6 py-3 text-sm text-center text-primary-dark border border-primary-dark ">MAKE THIS A SUBSCRIPTION (SAVE 20%)</button>
               <button href="" className="w-full bg-primary-dark text-sm px-6 py-3 text-center text-white">PROCEED TO CHECKOUT</button>
             </div>
-
           </CartFooterStyle>
         </div>
       </Modal>
