@@ -7,67 +7,63 @@ export const cartSlice = createSlice({
     totalPrice: 0,
     products: [],
   },
-  
+
   reducers: {
-    
-    addToCart:(state, action) =>{
-      // check if product is already in the cart
-      // if so, increace the count 
 
-      // add object to products array
-      state.products.unshift(action.payload);
+    addToCart: (state, action) => {
 
-      // update the cart totals (price && items)
-      cartSlice.caseReducers.updateCartSummary(state);
+      const newProduct = action.payload;
+      const newProductCount = 1;
+
+      const similarProduct = state.products.find(pr => pr.id === newProduct.id && JSON.stringify(pr.options) === JSON.stringify(newProduct.options));
+
+      const productCount = similarProduct ? (similarProduct.count + newProductCount) : newProductCount;
+      const product = similarProduct ? similarProduct : newProduct;
+      const productWithCount = { ...product, count: productCount };
+
+      const products = state.products.filter(pr => pr.id !== newProduct.id);
+      products.unshift(productWithCount);
+
+      cartSlice.caseReducers.updateCartSummary(state, products);
+
     },
 
-    removeFromCart:(state, action) =>{
-      // find the index of the item in the array
-      const itemIndex = state.products.findIndex( product => product.id === action.payload)
-      //remove the item
-      state.products = [
-        // from the start to the one we want to delete
-        ...state.products.slice(0, itemIndex),
-        // after the deleted one to the end
-        ...state.products.slice(itemIndex + 1)
-      ]
-      // update the cart totals (price && items)
-      cartSlice.caseReducers.updateCartSummary(state);
+    removeFromCart: (state, action) => {
+      const products = state.products.filter(pr => pr.id !== action.payload);
+      cartSlice.caseReducers.updateCartSummary(state, products);
     },
 
+    decrementProductCount: (state, action) => {
+      const product = action.payload;
+      const minProductAllowedInCart = 1;
+      if (product.count === minProductAllowedInCart) return;
 
-    calculateTotalPrice:(state) =>{
-      var total = 0
-      // loop through the products in the cart and add all prices
-      state.products.forEach(product =>{
-        total += product.price
-      })
-      state.totalPrice = total;
+      const productToDelete = JSON.parse(JSON.stringify(product));
+      productToDelete.count = productToDelete.count - 1;
+
+      const products = state.products.filter(pr => pr.id !== productToDelete.id);
+      products.unshift(productToDelete);
+      cartSlice.caseReducers.updateCartSummary(state, products);
     },
 
-    calculateTotalItems:(state)=>{
+    updateCartSummary(state, products) {
+      const totalPrice = products.reduce((total, product) => { return total + product.price * product.count; }, 0);
+      state.products = products;
+      state.totalPrice = totalPrice;
       state.totalItems = state.products.length;
     },
 
-    updatePrice:(state, action)=>{
-      
-    }, 
-
-    updateCartSummary(state){
-      cartSlice.caseReducers.calculateTotalPrice(state);
-      cartSlice.caseReducers.calculateTotalItems(state);
-    },
-
-    setUpdateState:(state, action) =>{
+    setUpdateState: (state, action) => {
       state.updateState = action.payload
     },
-    closeModal:(state, action)=>{
+
+    closeModal: (state, action) => {
       state[action.payload] = false;
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addToCart, removeFromCart } = cartSlice.actions
+export const { addToCart, removeFromCart, decrementProductCount } = cartSlice.actions
 
 export default cartSlice.reducer
