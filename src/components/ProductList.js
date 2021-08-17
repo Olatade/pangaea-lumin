@@ -4,6 +4,8 @@ import { openModal } from "../redux/modals";
 import { addToCart, setOptionsToView } from "../redux/cart";
 import {useQuery, gql} from "@apollo/client";
 import { useEffect } from "react";
+import getSymbolFromCurrency from 'currency-symbol-map'
+
 
 const PulsateStyle = styled.div`
     animation-name: color;
@@ -28,6 +30,7 @@ const PulsateStyle = styled.div`
 const SingleProduct = (props) =>{
   const { productData } = props;
   const dispatch = useDispatch();
+  const { currentCurrency } = useSelector(state => state.cart);
 
 
   // function to handle how a product is added to the cart
@@ -53,7 +56,7 @@ const SingleProduct = (props) =>{
         <img className="h-full" src={image_url} alt="product"/>
       </div>
       <h5 className="text-xs font-thin md:text-base">{title}</h5>
-      <p className="text-sm font-normal md:text-lg ">${price}</p>
+      <p className="text-sm font-normal md:text-lg ">{getSymbolFromCurrency(currentCurrency)}{price}</p>
       <button onClick={() => handleAddToCart(productData)} className="w-full trasnsition duration-300 hover:bg-primary-dark2 font-bold text-white px-6 py-4 text-sm text-center bg-primary-dark ">Add to cart</button>
     </div>
   )
@@ -62,7 +65,7 @@ const SingleProduct = (props) =>{
 
 function ProductList() {
   const { currentCurrency } = useSelector(state => state.cart);
-  console.log(currentCurrency);
+  console.log(getSymbolFromCurrency(currentCurrency));
 
   console.log('rendering again');
 
@@ -72,7 +75,7 @@ function ProductList() {
       id
       title
       image_url
-      price( currency: USD)
+      price( currency: ${currentCurrency})
       product_options{
         title
         prefix

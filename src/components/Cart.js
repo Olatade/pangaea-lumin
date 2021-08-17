@@ -6,6 +6,7 @@ import { closeModal } from '../redux/modals';
 import { useEffect } from 'react';
 import CartList from './CartList';
 import ProductOptionsView from './ProductOptionsView';
+import getSymbolFromCurrency from 'currency-symbol-map'
 
 Modal.setAppElement('#root');
 
@@ -49,6 +50,7 @@ const CartFooterStyle = styled.div`
 
 function Cart() {
   const dispatch = useDispatch();
+  const { currentCurrency } = useSelector(state => state.cart);
   const { cart } = useSelector(state => state.modal);
   const { products, totalPrice } = useSelector(state => state.cart);
 
@@ -97,7 +99,7 @@ function Cart() {
 
             <div className="flex justify-between text-sm">
               <p>Subtotal</p>
-              <p>${totalPrice}</p>
+              <p>{getSymbolFromCurrency(currentCurrency)}{totalPrice}</p>
             </div>
 
             <div className="space-y-3">

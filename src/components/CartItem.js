@@ -1,6 +1,7 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineClose } from 'react-icons/ai';
 import { removeFromCart, addToCart, decrementProductCount } from '../redux/cart';
+import getSymbolFromCurrency from 'currency-symbol-map'
 /**
  * Renders a single product that goes into the cartList
  * @param {*} props 
@@ -8,6 +9,7 @@ import { removeFromCart, addToCart, decrementProductCount } from '../redux/cart'
  */
  function CartItem(props) {
   const dispatch = useDispatch();
+  const { currentCurrency } = useSelector(state => state.cart);
   const { product } = props;
 
   let str = ''
@@ -38,7 +40,7 @@ import { removeFromCart, addToCart, decrementProductCount } from '../redux/cart'
           </div>
 
           {/* price */}
-          <p className="text-base font-thin">${product.price * product.count }</p>
+          <p className="text-base font-thin">{getSymbolFromCurrency(currentCurrency)}{product.price * product.count }</p>
         </div>
       </div>
 
