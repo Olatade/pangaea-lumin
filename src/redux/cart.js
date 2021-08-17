@@ -116,13 +116,13 @@ export const cartSlice = createSlice({
     decrementProductCount: (state, action) => {
       const product = action.payload;
       const minProductAllowedInCart = 1;
-      if (product.count === minProductAllowedInCart) return;
 
       const productToDelete = JSON.parse(JSON.stringify(product));
       productToDelete.count = productToDelete.count - 1;
 
       const products = state.products.filter(pr => pr.id !== productToDelete.id);
-      products.unshift(productToDelete);
+      product.count !== minProductAllowedInCart && products.unshift(productToDelete);
+      
       cartSlice.caseReducers.updateCartSummary(state, products);
     },
 
