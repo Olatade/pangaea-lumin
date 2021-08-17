@@ -17,14 +17,15 @@ export const cartSlice = createSlice({
       const newProductCount = 1;
 
       // if the payload has preference in them, add it
-      
+
       const similarProduct = state.products.find(pr => pr.id === newProduct.id && JSON.stringify(pr.options) === JSON.stringify(newProduct.options));
 
-      const productCount = similarProduct ? (similarProduct.count + newProductCount) : newProductCount;
-      const product = similarProduct ? similarProduct : newProduct;
+      const productCount = !!similarProduct ? (similarProduct.count + newProductCount) : newProductCount;
+
+      const product = !!similarProduct ? similarProduct : newProduct;
       const productWithCount = { ...product, count: productCount };
 
-      const products = state.products.filter(pr => pr.id !== newProduct.id);
+      const products = !!similarProduct ? state.products.filter(pr => pr.id !== newProduct.id) : state.products
       products.unshift(productWithCount);
 
       cartSlice.caseReducers.updateCartSummary(state, products);
@@ -45,7 +46,7 @@ export const cartSlice = createSlice({
 
       const products = state.products.filter(pr => pr.id !== productToDelete.id);
       product.count !== minProductAllowedInCart && products.unshift(productToDelete);
-      
+
       cartSlice.caseReducers.updateCartSummary(state, products);
     },
 
