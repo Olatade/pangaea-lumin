@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useDispatch, useSelector} from "react-redux";
 import { openModal } from "../redux/modals";
-import { addToCart, setOptionsToView } from "../redux/cart";
+import { addToCart, setOptionsToView, updateProducts } from "../redux/cart";
 import {useQuery, gql} from "@apollo/client";
 import { useEffect } from "react";
 import getSymbolFromCurrency from 'currency-symbol-map'
@@ -64,7 +64,9 @@ const SingleProduct = (props) =>{
 
 
 function ProductList() {
+  const dispatch = useDispatch();
   const { currentCurrency } = useSelector(state => state.cart);
+
   const ALL_PRODUCTS = gql`
   query GetProducts {
     products{
@@ -84,14 +86,17 @@ function ProductList() {
     }
   }
 `
+const { loading, error, data } = useQuery(ALL_PRODUCTS);
 
   useEffect( ()=>{
+    if(!data){
+    }else{
+      dispatch(updateProducts(data))
+    }
+  },[currentCurrency, data])
 
-  },[currentCurrency])
 
 
-
-const { loading, error, data } = useQuery(ALL_PRODUCTS);
 
 
   if(loading || error ){

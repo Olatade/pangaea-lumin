@@ -24,12 +24,21 @@ export const cartSlice = createSlice({
       }
     },
 
-    updateProducts(state, newProducts) {
-      const products = state.products;
-      products.forEach(pr => {
-        pr.price = newProducts.find(pr => pr.id === pr.id).price;
-      });
-      cartSlice.caseReducers.updateCartSummary(state, products);
+    updateProducts(state, action) {
+      console.log('UPDATING PRODUCTS', action.payload)   
+      
+
+      if(action.payload){
+        const products = state.products;
+        const newProducts = action.payload;
+        console.log(newProducts);
+        products.forEach(pr => {
+          pr.price = newProducts.find(pr => pr.id === pr.id).price;
+        });
+        cartSlice.caseReducers.updateCartSummary(state, products);
+      }
+
+      
     },
 
     changeCurrentCurrency: (state, action) => {
@@ -99,6 +108,6 @@ export const cartSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addToCart, removeFromCart, decrementProductCount, setOptionsToView, changeCurrentCurrency, clearOptionsView } = cartSlice.actions
+export const { updateProducts, addToCart, removeFromCart, decrementProductCount, setOptionsToView, changeCurrentCurrency, clearOptionsView } = cartSlice.actions
 
 export default cartSlice.reducer
