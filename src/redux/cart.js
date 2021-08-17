@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { getRandomInt } from '../services/functions';
 
 export const cartSlice = createSlice({
   name: 'carts',
@@ -29,7 +30,7 @@ export const cartSlice = createSlice({
     },
 
     addNewProduct(state, productToAdd) {
-      const productWithCount = { ...productToAdd, count: 1 };
+      const productWithCount = { ...productToAdd, count: 1, id: getRandomInt(1000000) };
       state.products.unshift(productWithCount);
       cartSlice.caseReducers.updateCartSummary(state, state.products);
     },
