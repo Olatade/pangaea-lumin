@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import CartList from './CartList';
 import ProductOptionsView from './ProductOptionsView';
 import getSymbolFromCurrency from 'currency-symbol-map'
+import {currencies} from '../services/data';
 
 Modal.setAppElement('#root');
 
@@ -83,10 +84,11 @@ function Cart() {
               <label htmlFor="cars" className="sr-only">Choose a car:</label>
 
               <select name="cars" id="currency" className=" text-sm border py-2 px-2 pr-4">
-                <option value="">USD</option>
-                <option value="volvo">EUR</option>
-                <option value="saab">AUD</option>
-                <option value="mercedes">CAD</option>
+                {
+                  currencies.map( currency => {
+                    return <option key={currency} value={currency}>{currency}</option>
+                  })
+                }
               </select>
             </form>
           </div>
