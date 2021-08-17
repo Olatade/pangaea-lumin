@@ -20,7 +20,7 @@ import getSymbolFromCurrency from 'currency-symbol-map'
   return (
     <div className=" flex relative justify-between items-center bg-white px-4 pt-5 pb-4">
       {/* close button */}
-      <span onClick={() => dispatch(removeFromCart(product.id))} className="cursor-pointer absolute top-2 right-2"><AiOutlineClose /></span>
+      <span onClick={() => dispatch(removeFromCart(product.productId))} className="cursor-pointer absolute top-2 right-2"><AiOutlineClose /></span>
 
       {/* Product details && quantity toggle */}
       <div className=" flex-1 space-y-3 pr-12">
@@ -40,7 +40,7 @@ import getSymbolFromCurrency from 'currency-symbol-map'
           </div>
 
           {/* price */}
-          <p className="text-base font-thin">{getSymbolFromCurrency(currentCurrency)}{product.price * product.count }</p>
+          <p className="text-base font-thin">{getSymbolFromCurrency(currentCurrency)}{ (product.price * product.count).toFixed(2)  }</p>
         </div>
       </div>
 

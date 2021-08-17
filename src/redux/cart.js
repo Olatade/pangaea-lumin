@@ -25,15 +25,12 @@ export const cartSlice = createSlice({
     },
 
     updateProducts(state, action) {
-      console.log('UPDATING PRODUCTS', action.payload)   
-      
 
       if(action.payload){
         const products = state.products;
         const newProducts = action.payload;
-        console.log(newProducts);
         products.forEach(pr => {
-          pr.price = newProducts.find(pr => pr.id === pr.id).price;
+          pr.price = newProducts.products.find(pr => pr.id === pr.id).price;
         });
         cartSlice.caseReducers.updateCartSummary(state, products);
       }

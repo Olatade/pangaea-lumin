@@ -115,7 +115,7 @@ function Cart() {
 
             <div className="flex justify-between text-sm">
               <p>Subtotal</p>
-              <p>{getSymbolFromCurrency(currentCurrency)}{totalPrice}</p>
+              <p>{getSymbolFromCurrency(currentCurrency)}{totalPrice.toFixed(2)}</p>
             </div>
 
             <div className="space-y-3">
