@@ -24,9 +24,16 @@ export const cartSlice = createSlice({
       }
     },
 
-    changeCurrentCurrency: (state, action) =>{
-      console.log('changiing to: ', action.payload);
+    updateProducts(state, newProducts) {
+      const products = state.products;
+      products.forEach(pr => {
+        pr.price = newProducts.find(pr => pr.id === pr.id).price;
+      });
+    },
+
+    changeCurrentCurrency: (state, action) => {
       state.currentCurrency = action.payload;
+      update
     },
 
     removeFromCart: (state, action) => {
