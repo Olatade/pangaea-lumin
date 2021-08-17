@@ -140,6 +140,7 @@ export const cartSlice = createSlice({
     updateCartSummary(state, products) {
       const totalPrice = products.reduce((total, product) => { return total + product.price * product.count; }, 0);
       state.products = products;
+      state.products = products.sort((a, b) => a.id - b.id);
       state.totalPrice = totalPrice;
       state.totalItems = state.products.length;
       state.optionsToView = {} // empty the product options object for re-use
