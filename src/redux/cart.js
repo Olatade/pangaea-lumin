@@ -22,7 +22,9 @@ export const cartSlice = createSlice({
       const productCount = !!similarProduct ? (similarProduct.count + newProductCount) : newProductCount;
 
       const product = !!similarProduct ? similarProduct : newProduct;
-      const productWithCount = { ...product, count: productCount, id: !!similarProduct ? productWithCount.id + 1000 : productWithCount.id };
+      const productWithCount = { ...product, count: productCount };
+      !!similarProduct && (productWithCount.id = productWithCount.id + 1000);
+      
       const products = !!similarProduct ? state.products.filter(pr => pr.id !== newProduct.id) : state.products
       products.unshift(productWithCount);
 
