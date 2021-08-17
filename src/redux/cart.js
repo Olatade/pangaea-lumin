@@ -7,7 +7,8 @@ export const cartSlice = createSlice({
     totalItems: 0,
     totalPrice: 0,
     products: [],
-    optionsToView: {}
+    optionsToView:{},
+    currentCurrency: 'USD'
   },
 
   reducers: {

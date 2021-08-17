@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { openModal } from "../redux/modals";
 import { addToCart, setOptionsToView } from "../redux/cart";
 import {useQuery, gql} from "@apollo/client";
+import { useEffect } from "react";
 
 const PulsateStyle = styled.div`
     animation-name: color;
@@ -60,6 +61,10 @@ const SingleProduct = (props) =>{
 
 
 function ProductList() {
+  const { currentCurrency } = useSelector(state => state.cart);
+  console.log(currentCurrency);
+
+  console.log('rendering again');
 
   const ALL_PRODUCTS = gql`
   query GetProducts {
@@ -80,6 +85,12 @@ function ProductList() {
     }
   }
 `
+
+  useEffect( ()=>{
+
+  },[currentCurrency])
+
+
 
 const { loading, error, data } = useQuery(ALL_PRODUCTS);
 
