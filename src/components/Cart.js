@@ -8,7 +8,6 @@ import CartList from './CartList';
 import ProductOptionsView from './ProductOptionsView';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import {currencies} from '../services/data';
-import {Formik, Form, Field} from 'formik';
 
 Modal.setAppElement('#root');
 
@@ -48,30 +47,23 @@ const CartFooterStyle = styled.div`
     box-shadow: 0px -7px 15px -2px rgba(209,213,210,0.71);
 `;
 
+
 function SelectCurrency(){
-  const { currentCurrency } = useSelector(state => state.cart);
+
+  function changeCurrency(e){
+    console.log(e.target.value);
+  }
 
   return (
-    <Formik
-      initialValues={{
-        currency: currentCurrency
-      }}
-
-      onSubmit={ (values, functions)=>{
-        console.log('changing the currency')
-      }}
-    >
-      <Form className="ml-auto pt-6">
-        <Field className=" text-sm border py-2 px-2 pr-4" name="currency" id="currency" as="select">
-          {
-            currencies.map( currency => {
-              return <option key={currency} value={currency}>{currency}</option>
-            })
-          } 
-        </Field>
-      </Form>
-
-    </Formik>
+    <form className="ml-auto pt-6">
+      <select onChange={ (e) => changeCurrency(e)} className=" text-sm border py-2 px-2 pr-4" name="currency" id="currency" as="select">
+        {
+          currencies.map( currency => {
+            return <option key={currency} value={currency}>{currency}</option>
+          })
+        } 
+      </select>
+    </form>
   )
 }
 
