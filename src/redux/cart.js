@@ -24,6 +24,11 @@ export const cartSlice = createSlice({
       }
     },
 
+    changeCurrentCurrency: (state, action) =>{
+      console.log('changiing to: ', action.payload);
+      state.currentCurrency = action.payload;
+    },
+
     removeFromCart: (state, action) => {
       const products = state.products.filter(pr => pr.id !== action.payload);
       cartSlice.caseReducers.updateCartSummary(state, products);
@@ -83,6 +88,6 @@ export const cartSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addToCart, removeFromCart, decrementProductCount, setOptionsToView } = cartSlice.actions
+export const { addToCart, removeFromCart, decrementProductCount, setOptionsToView, changeCurrentCurrency } = cartSlice.actions
 
 export default cartSlice.reducer

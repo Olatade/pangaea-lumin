@@ -65,10 +65,6 @@ const SingleProduct = (props) =>{
 
 function ProductList() {
   const { currentCurrency } = useSelector(state => state.cart);
-  console.log(getSymbolFromCurrency(currentCurrency));
-
-  console.log('rendering again');
-
   const ALL_PRODUCTS = gql`
   query GetProducts {
     products{

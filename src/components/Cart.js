@@ -8,7 +8,7 @@ import CartList from './CartList';
 import ProductOptionsView from './ProductOptionsView';
 import getSymbolFromCurrency from 'currency-symbol-map'
 import {currencies} from '../services/data';
-
+import { changeCurrentCurrency } from '../redux/cart';
 Modal.setAppElement('#root');
 
 const customStyles = {
@@ -49,14 +49,18 @@ const CartFooterStyle = styled.div`
 
 
 function SelectCurrency(){
+  const dispatch = useDispatch();
+  const { currentCurrency } = useSelector(state => state.cart);
 
   function changeCurrency(e){
-    console.log(e.target.value);
+    const newCurrency = e.target.value;
+    dispatch(changeCurrentCurrency(newCurrency))
   }
 
   return (
     <form className="ml-auto pt-6">
       <select onChange={ (e) => changeCurrency(e)} className=" text-sm border py-2 px-2 pr-4" name="currency" id="currency" as="select">
+        <option value={currentCurrency} defaultValue>{currentCurrency}</option>
         {
           currencies.map( currency => {
             return <option key={currency} value={currency}>{currency}</option>
