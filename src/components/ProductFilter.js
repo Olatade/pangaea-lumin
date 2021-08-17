@@ -13,10 +13,6 @@ function ProductFilter(){
 
           <select name="cars" id="cars" className="border w-full py-4 px-4 pr-4border-gray-600">
             <option value="">Filter by</option>
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
           </select> 
 
         </form>
