@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import Products from '../services/getAllProducts';
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 import { openModal } from "../redux/modals";
-import { addToCart } from "../redux/cart";
+import { addToCart, setOptionsToView } from "../redux/cart";
 
 const PulsateStyle = styled.div`
     animation-name: color;
@@ -28,8 +28,10 @@ const SingleProduct = (props) =>{
   const { productData } = props;
   const dispatch = useDispatch();
 
+
   // function to handle how a product is added to the cart
   function handleAddToCart(productData){
+
    const { product_options } = productData;
     
    if( product_options.length < 1){
@@ -38,6 +40,14 @@ const SingleProduct = (props) =>{
     dispatch(addToCart(productData));
     dispatch(openModal('cart'));
    }else{
+    //  add the options to the cart state
+     dispatch(setOptionsToView(productData))
+    //  display the cart
+    
+
+     // display product options
+     
+     // display cart
     console.log('we have options')
    }
     

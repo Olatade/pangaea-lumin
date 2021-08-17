@@ -5,20 +5,29 @@ export const modalSlice = createSlice({
   initialState: {
     cart: false,
     account: false,
+    productOption: false,
     menuBar: false
   },
   reducers: {
     openModal:(state, action)=>{
-      console.log('opening');
+      console.log('opening modal');
       switch(action.payload){
         //  set all other modal state to false when one is set to open
         case 'cart':
           state.cart = true;
           state.account = false;
           state.menuBar = false;
+          state.productOption = false;
           break;
         case 'account':
           state.account = true;
+          state.cart = false;
+          state.menuBar = false;
+          state.productOption = false;
+          break;
+        case 'productOption':
+          state.productOption = true;
+          state.account = false;
           state.cart = false;
           state.menuBar = false;
           break;
@@ -26,11 +35,13 @@ export const modalSlice = createSlice({
           state.menuBar = true;
           state.account = false;
           state.cart = false;
+          state.productOption = false;
           break;
         default:
           state.account = false;
           state.cart = false;
           state.menuBar = false;
+          state.productOption = false;
       }
     },
     setUpdateState:(state, action) =>{

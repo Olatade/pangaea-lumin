@@ -1,11 +1,11 @@
 import Modal from 'react-modal';
 import { IoChevronForwardCircleOutline } from 'react-icons/io5'
-import { AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { closeModal } from '../redux/modals';
-import { removeFromCart, addToCart, decrementProductCount } from '../redux/cart';
 import { useEffect } from 'react';
+import CartList from './CartList';
+import ProductOptionsView from './ProductOptionsView';
 
 Modal.setAppElement('#root');
 
@@ -45,79 +45,6 @@ const CartFooterStyle = styled.div`
     box-shadow: 0px -7px 15px -2px rgba(209,213,210,0.71);
 `;
 
-/**
- * Renders a single product that goes into the cartList
- * @param {*} props 
- * @returns 
- */
-function CartItem(props) {
-  const dispatch = useDispatch();
-  const { product } = props;
-  return (
-    <div className=" flex relative justify-between items-center bg-white px-4 pt-5 pb-4">
-      {/* close button */}
-      <span onClick={() => dispatch(removeFromCart(product.id))} className="cursor-pointer absolute top-2 right-2"><AiOutlineClose /></span>
-
-      {/* Product details && quantity toggle */}
-      <div className=" flex-1 space-y-3 pr-12">
-
-        <div>
-          <h4 className="text-sm">{product.title}</h4>
-          <p className="text-xs">Brown</p>
-          <p className="text-xxs">One time putchase of two month supply</p>
-        </div>
-
-        <div className="flex items-center justify-between">
-          {/* quantity toggle */}
-          <div className="flex px-2 py-1 w-max border border-gray-400 items-baseline">
-            <span className="pr-4 cursor-pointer" onClick={() => dispatch(decrementProductCount(product))}>-</span>
-            <span className="text-sm">{product.count}</span>
-            <span className="pl-4 cursor-pointer" onClick={() => dispatch(addToCart(product))}>+</span>
-          </div>
-
-          {/* price */}
-          <p className="text-base font-thin">${product.price}</p>
-        </div>
-      </div>
-
-      {/* Product image */}
-      <div className="w-20">
-        <img className="w-full" src={product.image_url} alt="lumin" />
-      </div>
-    </div>
-  )
-}
-
-/**
- * Renders a list of products that go
- * @param {*} props 
- * @returns 
- */
-function CartList(props) {
-  const { productList } = props
-  // Display a list of products if the productList array is not empty
-  if (productList.length > 0) {
-    return (
-      <div className="px-4 pt-28 bg-secondary-light max-h-screen pb-64 space-y-6 overflow-y-scroll">
-        {
-          productList.map(product => {
-            return <CartItem key={product.id} product={product} />
-          })
-        }
-      </div>
-    )
-  }
-
-  // Display empty cart message
-  else {
-    return (
-      <div className="px-4 pt-28" >
-        <p className="text-base text-center">There are no items in your cart</p>
-      </div>
-    )
-  }
-
-}
 
 
 function Cart() {
@@ -137,9 +64,11 @@ function Cart() {
       >
         <div className="relative min-h-full bg-secondary-light overflow-hidden">
 
+          {/* View to display the product options if any */}
+          <ProductOptionsView/>
 
           {/* Cart head - || title && close icon */}
-          <div className="z-40 absolute top-0 w-full pt-6 px-4 bg-secondary-light ">
+          <div className="z-10 absolute top-0 w-full pt-6 px-4 bg-secondary-light ">
 
             {/* close icon */}
             <span onClick={() => dispatch(closeModal('cart'))} className="cursor-pointer absolute text-2xl text-primary-dark"><IoChevronForwardCircleOutline /></span>
