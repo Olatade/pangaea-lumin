@@ -45,7 +45,7 @@ import { removeFromCart, addToCart, decrementProductCount } from '../redux/cart'
 
       {/* Product image */}
       <div className="w-20">
-        <img className="w-full" src={product.image_url} alt="lumin" />
+        <img className="max-h-24" src={product.image_url} alt="lumin" />
       </div>
     </div>
   )
