@@ -16,7 +16,7 @@ export const cartSlice = createSlice({
     addToCart: (state, action) => {
 
       const product = action.payload;
-      const similarProduct = state.products.find(pr => pr.id === product.id && JSON.stringify(pr.options) === JSON.stringify(product.options));
+      const similarProduct = state.products.find(pr => pr.productId === product.productId && JSON.stringify(pr.options) === JSON.stringify(product.options));
       if (!!similarProduct) {
         cartSlice.caseReducers.incrementProduct(state, similarProduct);
       } else {
@@ -46,18 +46,18 @@ export const cartSlice = createSlice({
     },
 
     removeFromCart: (state, action) => {
-      const products = state.products.filter(pr => pr.id !== action.payload);
+      const products = state.products.filter(pr => pr.productId !== action.payload);
       cartSlice.caseReducers.updateCartSummary(state, products);
     },
 
     addNewProduct(state, productToAdd) {
-      const productWithCount = { ...productToAdd, count: 1, id: getRandomInt(1000000) };
+      const productWithCount = { ...productToAdd, count: 1, productId: getRandomInt(1000000) };
       state.products.unshift(productWithCount);
       cartSlice.caseReducers.updateCartSummary(state, state.products);
     },
 
     incrementProduct: (state, product) => {
-      const productToIncrement = state.products.find(pr => pr.id === product.id);
+      const productToIncrement = state.products.find(pr => pr.productId === product.productId);
       productToIncrement.count = productToIncrement.count + 1;
       cartSlice.caseReducers.updateCartSummary(state, state.products);
     },
@@ -69,7 +69,7 @@ export const cartSlice = createSlice({
       const productToDelete = JSON.parse(JSON.stringify(product));
       productToDelete.count = productToDelete.count - 1;
 
-      const products = state.products.filter(pr => pr.id !== productToDelete.id);
+      const products = state.products.filter(pr => pr.productId !== productToDelete.productId);
       product.count !== minProductAllowedInCart && products.unshift(productToDelete);
 
       cartSlice.caseReducers.updateCartSummary(state, products);
@@ -87,7 +87,7 @@ export const cartSlice = createSlice({
 
     updateCartSummary(state, products) {
       const totalPrice = products.reduce((total, product) => { return total + product.price * product.count; }, 0);
-      state.products = products.sort((a, b) => { return b.id - a.id });
+      state.products = products.sort((a, b) => { return b.productId - a.productId });
       state.totalPrice = totalPrice;
       state.totalItems = state.products.length;
       state.optionsToView = {} // empty the product options object for re-use

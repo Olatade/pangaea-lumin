@@ -13,7 +13,7 @@ import CartItem from './CartItem';
       <div className="px-4 pt-28 bg-secondary-light max-h-screen pb-64 space-y-6 overflow-y-scroll">
         {
           productList.map(product => {
-            return <CartItem key={product.id} product={product} />
+            return <CartItem key={product.productId} product={product} />
           })
         }
       </div>
