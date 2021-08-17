@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {addToCart} from '../redux/cart';
 import { closeModal } from '../redux/modals';
+import { clearOptionsView } from '../redux/cart';
 import { IoChevronForwardCircleOutline } from 'react-icons/io5'
 import {Formik, Form, Field} from 'formik';
 
@@ -61,7 +62,12 @@ function OptionsForm(props){
 // this component renders personalization view for an object you are about to add to cart
 function ProductOptionsView(){
   const dispatch = useDispatch();
-  const { optionsToView } = useSelector(state => state.cart);
+  const { optionsToView} = useSelector(state => state.cart);
+
+  function handleOptionsClose(){''
+    dispatch(clearOptionsView());
+    dispatch(closeModal('cart'));
+  }
 
   // if there are product options in the product in OptionToView state in cart
   if(optionsToView?.product_options && optionsToView?.product_options.length > 0 ){
@@ -69,7 +75,7 @@ function ProductOptionsView(){
         <div className="z-20  absolute top-0 w-full h-full pt-6 px-4 bg-secondary-light">
   
           {/* close icon */}
-          <span onClick={() => dispatch(closeModal('cart'))} className="cursor-pointer absolute text-2xl text-primary-dark"><IoChevronForwardCircleOutline /></span>
+          <span onClick={() => handleOptionsClose() } className="cursor-pointer absolute text-2xl text-primary-dark"><IoChevronForwardCircleOutline /></span>
          
          {/* image */}
           <div className="text-center">
