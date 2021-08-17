@@ -32,7 +32,7 @@ import { removeFromCart, addToCart, decrementProductCount } from '../redux/cart'
           </div>
 
           {/* price */}
-          <p className="text-base font-thin">${product.price}</p>
+          <p className="text-base font-thin">${product.price * product.count }</p>
         </div>
       </div>
 
