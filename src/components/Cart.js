@@ -133,6 +133,7 @@ function Cart() {
     <div>
       <Modal
         isOpen={cart}
+        closeTimeoutMS={500}
         style={window.innerWidth > 768 ? customStyles : mobileStyles}
       >
         <div className="relative min-h-full bg-secondary-light overflow-hidden">
