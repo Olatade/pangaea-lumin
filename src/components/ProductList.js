@@ -42,7 +42,7 @@ const SingleProduct = (props) =>{
    }else{
     //  add the options to the cart state
      dispatch(setOptionsToView(productData))
-    //  display the cart
+     dispatch(openModal('cart'));
     
 
      // display product options

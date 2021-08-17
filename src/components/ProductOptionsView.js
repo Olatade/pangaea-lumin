@@ -9,19 +9,21 @@ function ProductOptionsView(){
   const { optionsToView } = useSelector(state => state.cart);
   const { product_options } = optionsToView //options to view is the product object including the image and title e.t.c
   
+
+  //  const isOptions = Object.keys(product_options).length > 0 ? true : false
+
   // create a state to display and hide this component
   function addProductWithOptionsToCart(something, e){
     e.preventDefault();
 
     // new product should be the product we are adding + a value that has the options that were selected
     // const newProduct = {} 
-    
     dispatch(addToCart(something))
 
   }
 
-  // if there are options in the cart reducer, display the option selection
-  if(Object.keys(optionsToView).length > 0){
+  // if there are product options in the product in OptionToView state in cart
+  if(optionsToView?.product_options && optionsToView?.product_options.length > 0 ){
     return (
         <div className="z-20  absolute top-0 w-full h-full pt-6 px-4 bg-secondary-light">
   
