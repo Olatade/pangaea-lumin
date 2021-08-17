@@ -89,6 +89,7 @@ export const cartSlice = createSlice({
   reducers: {
 
     addToCart: (state, action) => {
+      // console.log('Seye receiving', action.payload);
 
       const newProduct = action.payload;
       const newProductCount = 1;

@@ -2,25 +2,68 @@ import { useSelector, useDispatch } from 'react-redux';
 import {addToCart} from '../redux/cart';
 import { closeModal } from '../redux/modals';
 import { IoChevronForwardCircleOutline } from 'react-icons/io5'
+import {Formik, Form, Field} from 'formik';
+
+function OptionsForm(props){
+  const { optionsToView } = props;
+  const dispatch = useDispatch();
+  const { product_options } = optionsToView;
+
+  const values = {}
+
+  // get initial values for the form
+  product_options.forEach(option =>{
+    console.log(option.title.split(" ")[0]);
+    values[option.title.split(" ")[0]] = option.options[0].value;
+  })
+
+  return(
+    <Formik
+      initialValues={values}
+
+      onSubmit={ (values, functions)=>{
+        const producuctWithOptions = {...optionsToView, options: values}
+        console.log( 'Tade sending:', producuctWithOptions);
+        dispatch(addToCart(producuctWithOptions))
+      }}
+
+    >
+      <Form className="flex flex-col">
+        <div className="flex-grow space-y-4">
+        {
+          // loop over the values under an option e.g age range
+          product_options.map( option =>{
+            return(
+              <div className="" key={option.title.split(" ")[0]}>
+                <label className="text-sm" htmlFor={option.title.split(" ")[0]} >{option.title}</label>
+
+                <Field className="text-sm w-full mt-1 py-4 px-5" name={option.title.split(" ")[0]} id="currency" as="select">
+                  {
+                    option.options.map( singleOption =>{
+                      return <option className="text-sm" key={singleOption.id} value={singleOption.value}>{singleOption.value}</option>
+                    })
+                  } 
+                </Field>
+              </div>
+            )
+          })
+        }
+        </div>
+        <button type="submit"   className="mt-6 w-full bg-primary-dark text-sm px-6 py-3 text-center text-white">Add to Cart</button>
+
+          
+        </Form>
+
+    </Formik>
+
+  )
+}
+
 
 // this component renders personalization view for an object you are about to add to cart
 function ProductOptionsView(){
   const dispatch = useDispatch();
   const { optionsToView } = useSelector(state => state.cart);
-  const { product_options } = optionsToView //options to view is the product object including the image and title e.t.c
-  
-
-  //  const isOptions = Object.keys(product_options).length > 0 ? true : false
-
-  // create a state to display and hide this component
-  function addProductWithOptionsToCart(something, e){
-    e.preventDefault();
-
-    // new product should be the product we are adding + a value that has the options that were selected
-    // const newProduct = {} 
-    dispatch(addToCart(something))
-
-  }
 
   // if there are product options in the product in OptionToView state in cart
   if(optionsToView?.product_options && optionsToView?.product_options.length > 0 ){
@@ -43,32 +86,8 @@ function ProductOptionsView(){
 
             <div className="space-y-4">
               <h3 className="text-xs">Personalization details</h3>
-              <form className="flex flex-col">
-                <div className="flex-grow space-y-4">
-                {
-                  // loop over the values under an option e.g age range
-                  product_options.map( option =>{
-                    return(
-                      <div className="">
-                        <label className="text-sm" htmlFor={option.prefix} >{option.title}</label>
-                        <select className="text-sm w-full mt-1 py-4 px-5" name="cars" id="currency">
-                          {
-                            option.options.map( singleOption =>{
-                              return <option className="text-sm" key={singleOption.id} value={singleOption.value}>{singleOption.value}</option>
-                            })
-                          } 
-                        </select>
-                      </div>
-                    )
-                  })
-                }
-                </div>
-                
-                <button onClick={ (e) => addProductWithOptionsToCart(optionsToView, e)}  className="mt-6 w-full bg-primary-dark text-sm px-6 py-3 text-center text-white">Add to Cart</button>
 
-                
-              </form>
-
+              <OptionsForm optionsToView={optionsToView} />
             </div>
             
           </div>
